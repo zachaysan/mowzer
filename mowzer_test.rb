@@ -36,7 +36,47 @@ describe Mowzer do
     mowzer_power = Mowzer.new
     mowzer_power.send(:enclosed?, [1,2,3,4], [55,66]).should == false
   end
-  it "shou" do
-    
+  it "should indicate that point_set_alpha is fully contained in point_set_bravo with a numeric code" do
+    mowzer_power = Mowzer.new
+    point_set_alpha = (2..5).to_a
+    point_set_bravo = (1..7).to_a
+    mowzer_power.send(:enclosed?, point_set_alpha, point_set_bravo).should == true
+    mowzer_power.send(:encloses_type, point_set_alpha, point_set_bravo).should == -1
   end
+  it "should indicate that point_set_alpha is fully contained in point_set_bravo with a numeric code" do
+    mowzer_power = Mowzer.new
+    point_set_alpha = (2..5).to_a
+    point_set_bravo = (1..7).to_a
+    mowzer_power.send(:enclosed?, point_set_alpha, point_set_bravo).should == true
+    mowzer_power.relationship(point_set_alpha, point_set_bravo).should == :target_enclosed
+  end
+  it "should indicate that point_set_alpha is fully identical to point_set_bravo with a numeric code" do
+    mowzer_power = Mowzer.new
+    point_set_alpha = (2..5).to_a
+    point_set_bravo = (2..5).to_a
+    mowzer_power.send(:enclosed?, point_set_alpha, point_set_bravo).should == true
+    mowzer_power.send(:encloses_type, point_set_alpha, point_set_bravo).should == 0
+  end
+  it "should indicate that point_set_alpha is fully contained in point_set_bravo with a numeric code" do
+    mowzer_power = Mowzer.new
+    point_set_alpha = (2..5).to_a
+    point_set_bravo = (2..5).to_a
+    mowzer_power.send(:enclosed?, point_set_alpha, point_set_bravo).should == true
+    mowzer_power.relationship(point_set_alpha, point_set_bravo).should == :identicals
+  end  
+  it "should indicate that point_set_alpha fully contains to point_set_bravo with a numeric code" do
+    mowzer_power = Mowzer.new
+    point_set_alpha = (2..6).to_a
+    point_set_bravo = (2..5).to_a
+    mowzer_power.send(:enclosed?, point_set_alpha, point_set_bravo).should == true
+    mowzer_power.send(:encloses_type, point_set_alpha, point_set_bravo).should == 1
+  end
+  it "should indicate that point_set_alpha is fully contained in point_set_bravo with a numeric code" do
+    mowzer_power = Mowzer.new
+    point_set_alpha = (2..6).to_a
+    point_set_bravo = (2..5).to_a
+    mowzer_power.send(:enclosed?, point_set_alpha, point_set_bravo).should == true
+    mowzer_power.relationship(point_set_alpha, point_set_bravo).should == :target_encloses
+  end  
+
 end

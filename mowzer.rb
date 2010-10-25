@@ -53,9 +53,9 @@ class Mowzer
     return :islands if !any_overlap?(target, v)
     return :overlap if any_overlap?(target, v) and !enclosed?(target, v)
     if enclosed?(target, v)
-      return :target_enccloses if encloses_type(target,v) == 1
+      return :target_encloses if encloses_type(target,v) == 1
       return :identicals if encloses_type(target, v) == 0
-      return :target_enclossed if encloses_type(target, v) == -1
+      return :target_enclosed if encloses_type(target, v) == -1
       raise "enclosure type error, an enclosure was detected, but its type could not be ascertained"
     else
       raise "error finding relationship, it seems that none of the conditions could be met"
@@ -73,19 +73,24 @@ class Mowzer
   def encloses_type(target, v)
     # useful for <=> like operations, like sort
     # 1 => target_encloses, 0 => indenticals, -1 => target_enclosed
-    raise "no type of enclosure detected" unless enclosed?
+    raise "no type of enclosure detected" unless enclosed?(target, v)
     if inclusive(target,v) == target.length and inclusive(target,v) == v.length \
       and exclusive(target, v) == 0 and remaining(target, v) == 0
       0
     elsif inclusive(target, v) == v.length and exclusive(target, v) == 0 \
-      and remaining(target, v) > 0 and inclusive(target, v) >  target.length
+      and remaining(target, v) > 0 and inclusive(target, v) <  target.length
       1
     elsif inclusive(target, v) == target.length and exclusive(target, v) > 0 \
-      and remaining(target, v) == 0 and inclusive(target, v) > v.length
+      and remaining(target, v) == 0 and inclusive(target, v) < v.length
       -1
     else
-      # an bug must exist
-      raise "an error occured while trying to find the enclosure type"
+      # an bug must exist, here are some helpers
+      puts "if you were expecting target to be fully enclosed by v"
+      puts "#{inclusive(target, v)} should be #{target.length}"
+      puts "#{exclusive(target, v)} should be greater than zero"
+      puts "#{remaining(target, v)} should be 0"
+      puts "#{inclusive(target, v)} should be less than #{v.length}"
+       raise "an error occured while trying to find the enclosure type"
     end
   end
   def exclusive(target, v)
@@ -99,4 +104,4 @@ class Mowzer
   end
 end
 m = Mowzer.new
-m.each_with_number(5, :number_type => :exclusive) {|k,v,n| pp k,v,n}
+
