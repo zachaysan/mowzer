@@ -10,6 +10,7 @@ class Mowzer
     }
     @settings = options.dup
     defaults.each {|k,v| @settings[k] ||= v}
+    @points = points
   end
   # rename this method
   def each_with_number(point, options = {:number_type => :inclusive})
@@ -17,7 +18,7 @@ class Mowzer
     @points.each do |k, v|
       case options[:number_type]
       when :exclusive
-        value = exlusive(target, v)
+        value = exclusive(target, v)
       when :remaining
         value = remaining(target, v)
       when :inclusive
